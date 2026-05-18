@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://35a6hqi83frb"]
 
-[ext_resource type="PackedScene" uid="uid://v627xwpq7lf1" path="res://Player.tscn" id="1_gojnm"]
+[ext_resource type="PackedScene" uid="uid://v627xwpq7lf1" path="res://scenes/Player.tscn" id="1_2venv"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hsoxx"]
 size = Vector3(20, 0.5, 20)
@@ -14,7 +14,7 @@ background_color = Color(0.698039, 0, 0, 1)
 
 [node name="TestLevel" type="Node3D"]
 
-[node name="Player" parent="." instance=ExtResource("1_gojnm")]
+[node name="Player" parent="." instance=ExtResource("1_2venv")]
 transform = Transform3D(0.999996, -0.00292604, -0.000118062, 0.00292604, 0.999995, 0.000898197, 0.000115484, -0.00089854, 1, 0, 0, 0)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
