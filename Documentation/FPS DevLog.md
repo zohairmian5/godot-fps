@@ -55,15 +55,15 @@
 **Goal:** Walk around the level with WASD and look around with the mouse.  
 **Key nodes:** `Input` · `move_and_slide()`
 
-- [ ] Attach a new GDScript to the `Player` node
-- [ ] Add gravity: apply a downward velocity each frame when not on floor
-- [ ] Add WASD movement: read `Input.get_vector()` and apply to velocity
-- [ ] Call `move_and_slide()` at the end of `_physics_process()`
-- [ ] Capture the mouse on `_ready()` with `Input.mouse_mode = Input.MOUSE_MODE_CAPTURED`
-- [ ] Press `Escape` to release the mouse (for debugging)
-- [ ] In `_input()`, read `InputEventMouseMotion` — rotate the **body** on Y (left/right)
-- [ ] Rotate the **Camera3D** on X (up/down) — clamp between -90° and 90°
-- [ ] Run and walk around — tune movement speed until it feels right
+- [x] Attach a new GDScript to the `Player` node
+- [x] Add gravity: apply a downward velocity each frame when not on floor
+- [x] Add WASD movement: read `Input.get_vector()` and apply to velocity
+- [x] Call `move_and_slide()` at the end of `_physics_process()`
+- [x] Capture the mouse on `_ready()` with `Input.mouse_mode = Input.MOUSE_MODE_CAPTURED`
+- [x] Press `Escape` to release the mouse (for debugging)
+- [x] In `_input()`, read `InputEventMouseMotion` — rotate the **body** on Y (left/right)
+- [x] Rotate the **Camera3D** on X (up/down) — clamp between -90° and 90°
+- [x] Run and walk around — tune movement speed until it feels right
 
 > **End of session check:** You can walk around and look in any direction without the camera flipping.
 
