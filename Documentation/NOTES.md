@@ -151,20 +151,38 @@ Writing it in your own words is what makes it stick.
 ---
 
 ## Day 3 — Aim tilt
-*Date: <!-- fill in -->*
+*Date: 2026-05-21*
 
 ### What I learned
+- Aim tilt is a camera Z rotation that tilts slightly when strafing left or right — purely a feel improvement, no gameplay effect
+- `input.x` from `Input.get_vector()` already contains the horizontal strafe value (-1 to 1) — no need to read input again separately
+- `deg_to_rad()` is needed because Godot stores all rotation internally in radians — we think in degrees but Godot works in radians
+- `lerp(current, target, speed)` smoothly moves a value toward a target — used for tilt so it animates instead of snapping
+- When strafe input returns to 0, tilt_target becomes 0 automatically — lerp smoothly returns camera to center with no extra code needed
+- `* delta` is needed on the lerp speed to keep the animation speed consistent across different frame rates — without it the tilt snaps faster on high fps machines
+- The minus on `input.x * -TILT_AMOUNT` corrects the rotation direction mismatch — same reason as mouse look minus signs
+- Godot Z rotation convention: positive tilts one way, negative tilts the other — the minus corrects which direction feels natural
+- Anything that changes over time every frame needs `* delta` to stay frame rate independent — gravity, lerp speeds, weapon bob, enemy movement all follow this rule
 
 ### What confused me
+- Why lerp needs `* delta` when it already has a speed value
+- Why there is a minus on the tilt amount
 
 ### How I solved it
+- Without `* delta` lerp runs the same fraction per frame regardless of time — on 120fps it runs twice as many frames per second so it moves twice as fast. `* delta` converts it from per frame to per second so both machines animate at the same speed
+- The minus corrects the mismatch between input direction and Godot's Z rotation direction — without it strafing right tilts the camera the wrong way. Same pattern as the minus signs in mouse look
 
-### Nodes introduced today
-| Node | Purpose |
-|------|---------|
-| | |
+### Nodes & methods introduced today
+| Node / Method | Purpose |
+|---------------|---------|
+| `lerp(current, target, speed)` | Smoothly moves a value toward a target each frame |
+| `deg_to_rad()` | Converts degrees to radians for Godot's rotation system |
+| `camera.rotation.z` | Z axis rotation — tilts the camera sideways |
 
 ### Questions to follow up on
+- What is the difference between `lerp()` and `move_toward()`?
+- What other camera effects can be added with rotation and lerp?
+- Why does Godot use radians instead of degrees internally?
 
 ---
 
