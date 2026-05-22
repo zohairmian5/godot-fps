@@ -3,6 +3,7 @@ extends CharacterBody3D
 const SPEED = 5.0
 const GRAVITY = 20
 const SENSITIVITY = 0.003
+const TILT_AMOUNT = 3
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -26,20 +27,27 @@ func _process(delta: float) -> void:
 	pass
 
 func _physics_process(delta: float) -> void:
-	if  is_on_floor():
-		velocity.y = 0;
+	# your existing gravity code
+	if is_on_floor():
+		velocity.y = 0
 	else:
-		velocity.y -= GRAVITY * delta;
-	
-	var input = Input.get_vector("Left","Right","Up","Down")
-	var direction = (transform.basis * Vector3(input.x,0,input.y)).normalized()
-	
+		velocity.y -= GRAVITY * delta
+
+	# your existing movement code
+	var input = Input.get_vector("Left", "Right", "Up", "Down")
+	var direction = (transform.basis * Vector3(input.x, 0, input.y)).normalized()
+
 	if direction:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
 	else:
 		velocity.x = 0.0
 		velocity.z = 0.0
+
+	# aim tilt
+	var tilt_target = deg_to_rad(input.x * -TILT_AMOUNT)
+	$'Camera3D'.rotation.z = lerp($Camera3D.rotation.z, tilt_target, 8.0 * delta)
+
 	move_and_slide()
 		
 		
