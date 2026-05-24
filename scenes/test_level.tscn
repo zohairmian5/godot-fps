@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://35a6hqi83frb"]
+[gd_scene format=3 uid="uid://35a6hqi83frb"]
 
 [ext_resource type="PackedScene" uid="uid://v627xwpq7lf1" path="res://scenes/Player.tscn" id="1_2venv"]
 
@@ -12,23 +12,23 @@ size = Vector3(20, 0.5, 20)
 background_mode = 2
 background_color = Color(0.698039, 0, 0, 1)
 
-[node name="TestLevel" type="Node3D"]
+[node name="TestLevel" type="Node3D" unique_id=1139260963]
 
-[node name="Player" parent="." instance=ExtResource("1_2venv")]
+[node name="Player" parent="." unique_id=2017850313 instance=ExtResource("1_2venv")]
 transform = Transform3D(0.999996, -0.00292604, -0.000118062, 0.00292604, 0.999995, 0.000898197, 0.000115484, -0.00089854, 1, 0, 0, 0)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1181997165]
 
-[node name="Floor" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="Floor" type="CollisionShape3D" parent="StaticBody3D" unique_id=44482275]
 shape = SubResource("BoxShape3D_hsoxx")
 debug_color = Color(0.765302, 0.421849, 0.416658, 0.42)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=1385833618]
 mesh = SubResource("BoxMesh_gojnm")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1369748244]
 transform = Transform3D(0.999919, -0.00410814, 0.0120762, -0.00541104, 0.720712, 0.693213, -0.0115513, -0.693222, 0.720631, 0, 0, 0)
 light_color = Color(0.976821, 0.77495, 0.453501, 1)
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1038669463]
 environment = SubResource("Environment_gojnm")

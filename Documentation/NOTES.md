@@ -185,40 +185,94 @@ Writing it in your own words is what makes it stick.
 - Why does Godot use radians instead of degrees internally?
 
 ---
-
 ## Day 4 — Weapon model in view
-*Date: <!-- fill in -->*
+*Date: 2026-05-21*
 
 ### What I learned
+- `.glb` and `.gltf` are 3D model file formats Godot can import directly
+- `.glb` embeds textures inside the file itself — self contained
+- `.gltf` stores textures as separate files and references them by path — need to copy the textures folder alongside the model
+- When you import a `.glb` or `.gltf` Godot automatically creates the `MeshInstance3D` inside it — no need to add one manually
+- `MeshInstance3D` is only added manually when creating geometry from scratch inside Godot
+- The weapon scene is instanced as a child of `Camera3D` so it always stays in the camera view and moves with it
+- Weapon position is set relative to the camera — X moves left/right, Y moves up/down, Z moves closer/further
+- The handle of the gun being cut off at the bottom of the screen is normal and correct for FPS games
+- `Material Override` on a `MeshInstance3D` replaces all materials on the mesh with one single material
+- Godot's FileSystem panel needs a **Rescan Filesystem** if you add files outside the editor
+- Right clicking a model in the FileSystem and selecting **Reimport** forces Godot to reprocess it with updated files
+- Internal Godot editor warnings like `Signal already connected` and `progress_dialog` errors are engine bugs — not your code, safe to ignore
+- `ERROR` messages need fixing, `WARNING` messages are often harmless, `INFO` messages can always be ignored
 
 ### What confused me
+- Why the texture wasn't showing even after importing the model
+- Whether MeshInstance3D needed to be added manually for imported models
+- What the internal Godot editor errors meant
 
 ### How I solved it
+- The `.gltf` model stores textures as separate files — copying the Textures folder into the assets directory and reimporting fixed the missing colour
+- Imported models already contain `MeshInstance3D` inside them — Godot creates it automatically during import
+- Internal editor warnings come from Godot's own code not our project — they don't affect gameplay and can be ignored
 
-### Nodes introduced today
-| Node | Purpose |
-|------|---------|
-| | |
+### Nodes & methods introduced today
+| Node / Method | Purpose |
+|---------------|---------|
+| `MeshInstance3D` | Renders a 3D mesh visually — no physics |
+| `Material Override` | Replaces all materials on a mesh with a single material |
+| `StandardMaterial3D` | Godot's default material — controls colour, texture, shading |
 
 ### Questions to follow up on
+- What is the difference between `.glb` and `.gltf` formats?
+- When would you use `Surface Materials` instead of `Material Override`?
+- What other import settings are available for 3D models in Godot?
 
 ---
 
 ## Day 5 — Weapon bob & sway
-*Date: <!-- fill in -->*
+*Date: 2026-05-22*
 
 ### What I learned
+- Weapon bob and sway are purely visual effects — they make the weapon feel weighted and alive
+- Bob uses `sin()` to create a smooth repeating up/down wave — it's the simplest function for smooth continuous oscillation
+- `sin()` always returns a value between -1 and 1 — `* bob_amount` scales it down to a subtle range like 0.02 units
+- `time * bob_speed` controls how fast the wave cycles — without `* bob_speed` the bob would be too slow at default sin rate
+- `time` is just a regular float variable that grows every frame by adding `delta` — nothing to do with Godot's built in `Time` class
+- Bob only advances `time` when the player is moving and on the floor — prevents bobbing while falling or standing still
+- Player movement speed is calculated with `.length()` on the horizontal velocity vector — collapses X and Z into one speed number
+- Y is zeroed out before `.length()` so falling and jumping don't trigger bob — only horizontal walking speed matters
+- `BASE_POSITION` stores the weapon's resting position — bob and sway add offsets to it rather than replacing it so they work together
+- Using rotation difference for sway causes a teleporting bug when rotation wraps past 360° — `rotation_diff` becomes a huge number
+- The fix is to use raw `event.relative` from `InputEventMouseMotion` for sway — mouse delta is always a small value with no wrapping issue
+- `mouse_delta` must be reset to `Vector2.ZERO` at the end of each `_process()` frame — otherwise the weapon never returns to center
+- `SWAY_AMOUNT` needs to be much smaller when using mouse pixels vs rotation values — around 0.002 instead of 2.0
+- Splitting logic into separate functions like `_handle_bob()` and `_handle_sway()` keeps `_process()` clean and easy to extend later
 
 ### What confused me
+- Why `sin()` specifically and not a simpler function
+- Why `* bob_amount` is needed if `sin()` already gives a value
+- What `time` is — thought it might be Godot's built in Time class
+- Why the gun was teleporting left to right with the rotation difference approach
 
 ### How I solved it
+- `sin()` is the simplest tool for smooth continuous oscillation — any alternative either snaps, requires more code, or doesn't loop smoothly
+- `sin()` returns -1 to 1 which is 1 full Godot unit — way too large. `* bob_amount` scales it down to something subtle like 0.02 units
+- `time` is just a plain float variable that accumulates delta each frame — completely separate from Godot's Time class
+- Rotation wraps past 360° causing a huge `rotation_diff` value. Using `event.relative` from mouse input avoids this — mouse delta is always a small relative value that never wraps
 
-### Nodes introduced today
-| Node | Purpose |
-|------|---------|
-| | |
+### Nodes & methods introduced today
+| Node / Method | Purpose |
+|---------------|---------|
+| `sin()` | Returns a smooth wave between -1 and 1 — used for bob oscillation |
+| `Vector3.length()` | Returns the magnitude of a vector — collapses direction into a single speed number |
+| `_input(event)` | Reads raw input events including mouse motion |
+| `InputEventMouseMotion` | Fires when mouse moves — contains `relative` (pixels moved this frame) |
+| `event.relative` | How many pixels the mouse moved since last frame — used for sway |
+| `lerp()` | Smoothly moves a value toward a target each frame |
 
 ### Questions to follow up on
+- What is the difference between `sin()` and `cos()` and when would you use each?
+- What other effects can be created with `sin()` besides bob?
+- How would you add a different bob speed for sprinting vs walking?
+- What does `Vector2.ZERO` mean and are there other shortcuts like it?
 
 ---
 

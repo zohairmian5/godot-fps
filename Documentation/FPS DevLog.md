@@ -98,11 +98,11 @@
 **Goal:** A weapon mesh visible in the bottom-right of the screen that moves with the camera.  
 **Key nodes:** `Node3D` · `MeshInstance3D`
 
-- [ ] Download a free weapon model from Kenney or Quaternius (or use a BoxMesh placeholder)
-- [ ] Create a new scene: `Node3D` root, add a `MeshInstance3D` for the weapon, save as `weapon.tscn`
-- [ ] Instance `weapon.tscn` as a child of `Camera3D` in your player scene
-- [ ] Position it bottom-right of view (e.g. X=0.3, Y=-0.3, Z=-0.5)
-- [ ] Run the scene — the weapon should stay fixed in the camera view as you look around
+- [x] Download a free weapon model from Kenney or Quaternius (or use a BoxMesh placeholder)
+- [x] Create a new scene: `Node3D` root, add a `MeshInstance3D` for the weapon, save as `weapon.tscn`
+- [x] Instance `weapon.tscn` as a child of `Camera3D` in your player scene
+- [x] Position it bottom-right of view (e.g. X=0.3, Y=-0.3, Z=-0.5)
+- [x] Run the scene — the weapon should stay fixed in the camera view as you look around
 
 > **End of session check:** A weapon mesh is visible in the corner of the screen at all times.
 
