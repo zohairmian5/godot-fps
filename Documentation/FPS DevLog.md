@@ -76,13 +76,13 @@
 **Goal:** The camera rolls slightly when strafing — subtle but makes the game feel polished.  
 **Key nodes:** `lerp()`
 
-- [ ] In `_physics_process()`, read the horizontal strafe input value (-1 to 1)
-- [ ] Define a `tilt_amount` constant (try 3.0 degrees to start)
-- [ ] Each frame, lerp the camera's Z rotation toward `strafe_input * -tilt_amount`
-- [ ] When no strafe input, lerp Z rotation back toward 0
-- [ ] Use a lerp speed of around 8–10 multiplied by `delta`
-- [ ] Play with the tilt angle and lerp speed until it feels natural
-- [ ] Run and strafe back and forth — enjoy the result
+- [x] In `_physics_process()`, read the horizontal strafe input value (-1 to 1)
+- [x] Define a `tilt_amount` constant (try 3.0 degrees to start)
+- [x] Each frame, lerp the camera's Z rotation toward `strafe_input * -tilt_amount`
+- [x] When no strafe input, lerp Z rotation back toward 0
+- [x] Use a lerp speed of around 8–10 multiplied by `delta`
+- [x] Play with the tilt angle and lerp speed until it feels natural
+- [x] Run and strafe back and forth — enjoy the result
 
 > **End of session check:** The camera tilts smoothly when strafing and returns when you stop.  
 > **Tip:** This is ~5 lines of code. If it takes 20 minutes, spend the rest of the session tuning feel.
